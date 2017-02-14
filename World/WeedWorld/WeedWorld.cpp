@@ -26,25 +26,8 @@ WeedWorld::WeedWorld(shared_ptr<ParametersTable> _PT) :
 }
 
 // score is number of outputs set to 1 (i.e. output > 0) squared
-void WeedWorld::evaluateSolo(shared_ptr<Organism> org, int analyse, int visualize, int debug) {
-	for (int r = 0; r < evaluationsPerGeneration; r++) {
-		org->brain->resetBrain();
-		org->brain->setInput(0, 1);  // give the brain a constant 1 (for wire brain)
-		org->brain->update();
-		double score = 0.0;
-		for (int i = 0; i < org->brain->nrOutputValues; i++) {
-			if (mode == 0) {
-				score += Bit(org->brain->readOutput(i));
-			}
-			else {
-				score += org->brain->readOutput(i);
-			}
-		}
-		if (score < 0.0) {
-			score = 0.0;
-		}
-		org->dataMap.Append("score", score);
-	}
+void WeedWorld::evaluate(map<string, shared_ptr<Group> > &groups, int analyse, int visualize, int debug) {
+    
 }
 
 int WeedWorld::requiredInputs() {
