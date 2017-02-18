@@ -13,11 +13,16 @@
 
 #include "../AbstractWorld.h"
 
+
+//cliff you can yell at us later for this :) 
+#include <iostream> 
 #include <stdlib.h>
 #include <thread>
 #include <vector>
 #include <map>
 
+
+//...
 using namespace std;
 
 class WeedWorld : public AbstractWorld {
@@ -46,9 +51,18 @@ public:
 	virtual int requiredInputs() override;
 	virtual int requiredOutputs() override;
 
+    //should have a way to figure out how to set this in the cfg file so that we can change this as needed.
+    int WorldX;
+    int WorldY; 
+
+    vector<int> grid; 
+
+    //hack hack hack (sorry) 
+    bool init; 
+
    // map<int, org>
 
-/*    	// convert x,y into a grid index
+    	// convert x,y into a grid index
 	int getGridIndexFromXY(pair<int, int> loc) {
 		return loc.first + (loc.second * WorldX);
 	}
@@ -63,28 +77,63 @@ public:
 		return getGridValue(grid, getGridIndexFromXY(loc));
 	}
 
+
+    /*
 	// takes x,y and updates them by moving one step in facing
 	pair<int, int> moveOnGrid(pair<int, int> loc, int facing) {
 		return {loopMod((loc.first + xm[facing]), WorldX), loopMod((loc.second + ym[facing]), WorldY)};
 	}
+
+   */
 
 	// update value at index in grid
 	void setGridValue(vector<int> &grid, int index, int value) {
 		grid[index] = value;
 	}
 
+    
 	// update value at x,y in grid
 	void setGridValue(vector<int> &grid, pair<int, int> loc, int value) {
 		setGridValue(grid, getGridIndexFromXY(loc), value);
 	}
+   
 
 	// return a vector of size x*y
 	vector<int> makeGrid(int x, int y) {
 		vector<int> grid;
 		grid.resize(x * y);
+        for (int i = 0; i<x*y; i++){
+            grid[i]=-1; 
+        }
+
 		return grid;
 	}
-*/
+
+    void printGrid(vector<int> &grid, ostream &os){
+        cerr <<"Printing grid" <<endl; 
+
+
+        //should figured out whats up with getGridValue()
+        int loc =0; 
+        for ( auto val : grid ){
+            if (loc%WorldX==0) os<<endl;
+            os << val << " "; 
+            ++loc; 
+        }
+        os <<endl; 
+
+        /*
+
+        for (int i =0; i++; i < WorldX){
+            for (int j=0; j++; j < WorldY){
+                cout << getGridValue(grid,make_pair(i,j)) <<" "; 
+            }
+            cout << endl;
+        }
+        */
+
+        cerr <<"done printing grid"<< endl; 
+    }
 
 
 	//virtual int maxOrgsAllowed() override;
