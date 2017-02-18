@@ -26,7 +26,8 @@ WeedWorld::WeedWorld(shared_ptr<ParametersTable> _PT) :
 }
 
 // score is number of outputs set to 1 (i.e. output > 0) squared
-void WeedWorld::evaluate(map<string, shared_ptr<Group> > &groups, int analyse, int visualize, int debug) {
+void WeedWorld::evaluate(map<string, shared_ptr<Group>>& groups, int analyse = 0, int visualize = 0, int debug = 0) {
+    std::cout<<"HERE"<<std::endl;
     
 }
 

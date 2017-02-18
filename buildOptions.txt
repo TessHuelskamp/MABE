@@ -1,5 +1,5 @@
 % World
-  * Weed
+  + Weed
   + Berry
   + NumeralClassifier
   + Test
