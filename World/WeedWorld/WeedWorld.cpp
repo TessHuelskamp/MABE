@@ -42,11 +42,12 @@ int WeedWorld::numNeighbors(size_t vecLoc){
     
     int numNeighbors = 0; 
 
-
     //WorldX and WorldUY
-    //
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 9; i++)
     {
+
+        if (i==4) continue; //dont count yourself
+
         int x = (vecLoc % WorldX + i%3 - 1) % WorldX;
         int y = (vecLoc / WorldX + i/3 - 1) % WorldY;
 
@@ -57,7 +58,6 @@ int WeedWorld::numNeighbors(size_t vecLoc){
         //look up to see if there is an org there.
         //-1 is the id of something that is empty
         if (valAtPos >= 0) numNeighbors +=1;
-
 
     }
 
@@ -91,10 +91,29 @@ void WeedWorld::evaluate(map<string, shared_ptr<Group>>& groups, int analyse = 0
     std::cout<<"HERE"<<std::endl;
 
 
-    // do these for every update
-    feed(); 
-    spawn(); 
-    kill(); 
+    for (int i=0; i<100; i++){
+        //run through these things 100 times for now. 
+        //should actually be written well later...
+        // do these for every update
+        
+        cout<< i<<endl;
+        feed(); 
+        spawn(); 
+        kill(); 
+        printGrid(grid,cout); 
+
+    }
+
+
+    //check the number of neighbors something random has 
+
+    size_t orgLoc = 35; 
+    int neighbors = numNeighbors(orgLoc); 
+    int orgID = grid[orgLoc];
+
+    cout<< orgLoc << " " << orgID <<" " << neighbors << endl;
+
+
 
     cout<<groups["default"]->population.size()<< endl; 
 
