@@ -32,7 +32,11 @@ public:
     struct org{
         int x;
         int y;
-        int ID; //TODO Add more stats
+        int orgID; 
+        int vecID;
+        int numFood;
+        //TO DO add more features to the plants. 
+        ///TODO Add more stats
     };
 
 	static shared_ptr<ParameterLink<int>> modePL;
@@ -51,6 +55,13 @@ public:
 	virtual int requiredInputs() override;
 	virtual int requiredOutputs() override;
 
+
+    int numNeighbors(size_t vecLoc); // return number of neighbors something has in radius 1
+
+    void feed(); // feed the plants
+    void kill(); // kill the plants
+    void spawn(); //spawn the plants if they're ready
+
     //should have a way to figure out how to set this in the cfg file so that we can change this as needed.
     int WorldX;
     int WorldY; 
@@ -58,11 +69,12 @@ public:
     vector<int> grid; 
 
     //hack hack hack (sorry) 
-    bool init; 
+    bool init; //init in the eval fn only once
 
-   // map<int, org>
+    // map<int, org>
 
-    	// convert x,y into a grid index
+    //ripped out of weed world.
+    // convert x,y into a grid index
 	int getGridIndexFromXY(pair<int, int> loc) {
 		return loc.first + (loc.second * WorldX);
 	}

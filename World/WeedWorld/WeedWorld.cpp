@@ -24,13 +24,44 @@ WeedWorld::WeedWorld(shared_ptr<ParametersTable> _PT) :
 
 	// columns to be added to ave file
 	aveFileColumns.clear();
-	aveFileColumns.push_back("score");
+	//aveFileColumns.push_back("score");
+    //to do, tell archist to record things; 
 
     WorldX = 10;
     WorldY = 10; 
     grid = makeGrid(WorldX, WorldY); 
 
-    init = false; 
+    init = false; //hack hack hack
+}
+
+
+int WeedWorld::numNeighbors(size_t vecLoc){
+    //only getting things from radius 1 for now. 
+    //need to expand this later.
+    //copied from Emperical. Ty CAO
+    
+    int numNeighbors = 0; 
+
+
+    //WorldX and WorldUY
+    //
+    for (int i = 0; i < 8; i++)
+    {
+        int x = (vecLoc % WorldX + i%3 - 1) % WorldX;
+        int y = (vecLoc / WorldX + i/3 - 1) % WorldY;
+
+        int pos = x + y * WorldX;
+
+        int valAtPos = grid[pos];
+
+        //look up to see if there is an org there.
+        //-1 is the id of something that is empty
+        if (valAtPos >= 0) numNeighbors +=1;
+
+
+    }
+
+    return numNeighbors;
 }
 
 // score is number of outputs set to 1 (i.e. output > 0) squared
@@ -59,10 +90,13 @@ void WeedWorld::evaluate(map<string, shared_ptr<Group>>& groups, int analyse = 0
    }
     std::cout<<"HERE"<<std::endl;
 
+
+    // do these for every update
+    feed(); 
+    spawn(); 
+    kill(); 
+
     cout<<groups["default"]->population.size()<< endl; 
-
-
-
 
 
     //get all of the orgs and put them at a spot in our grid. 
@@ -70,6 +104,18 @@ void WeedWorld::evaluate(map<string, shared_ptr<Group>>& groups, int analyse = 0
     //
 
     
+}
+
+void WeedWorld::kill(){
+    //TODO
+}
+
+void WeedWorld::spawn(){
+    //TODO
+}
+
+void WeedWorld::feed(){
+    //TODO
 }
 
 int WeedWorld::requiredInputs() {
