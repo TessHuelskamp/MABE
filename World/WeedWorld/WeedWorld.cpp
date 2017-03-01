@@ -29,9 +29,17 @@ WeedWorld::WeedWorld(shared_ptr<ParametersTable> _PT) :
 
     WorldX = 10;
     WorldY = 10; 
+
+    cerr <<"in init";
     grid = makeGrid(WorldX, WorldY); 
+    plants = makePlants(WorldX, WorldY); 
+
+    //test = {1, 2, 3}; //init for now bc something is broken
 
     init = false; //hack hack hack
+
+    //plantz.clear(); 
+    cerr <<"done init";
 }
 
 
@@ -81,6 +89,13 @@ void WeedWorld::evaluate(map<string, shared_ptr<Group>>& groups, int analyse = 0
             //We might need to log this with somehting or whatever
             setGridValue(grid, loc, orgPtr->ID); 
             
+            //construct plant to put in the map
+            //org plant;
+            //plant.orgID=orgPtr->ID; 
+            //plant.numFood = 10; 
+            //plant.loc=loc;
+            //plants[orgPtr->ID]=plant;
+            
         }
 
 
@@ -91,7 +106,7 @@ void WeedWorld::evaluate(map<string, shared_ptr<Group>>& groups, int analyse = 0
     std::cout<<"HERE"<<std::endl;
 
 
-    for (int i=0; i<100; i++){
+    for (int i=0; i<1; i++){
         //run through these things 100 times for now. 
         //should actually be written well later...
         // do these for every update

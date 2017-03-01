@@ -30,22 +30,33 @@ class WeedWorld : public AbstractWorld {
 public:
 
     struct org{
-        int x;
-        int y;
         int orgID; 
-        int vecID;
+        int loc;
         int numFood;
         //TO DO add more features to the plants. 
         ///TODO Add more stats
     };
 
+    //we want to map the ID of the plant to our org object
+    //we can access them bc the ID's are stored in our grid.
+    //ID, organism
+    //map<int, org> plantz;
+//    map<string,map<string,string>> plantz;
+    //map<int, int> plantz;
+
 	static shared_ptr<ParameterLink<int>> modePL;
 	static shared_ptr<ParameterLink<int>> numberOfOutputsPL;
 	static shared_ptr<ParameterLink<int>> evaluationsPerGenerationPL;
 
-	int mode;
-	int numberOfOutputs;
+	int mode; 
+	int numberOfOutputs; 
 	int evaluationsPerGeneration;
+
+    //should have a way to figure out how to set this in the cfg file so that we can change this as needed.
+    int WorldX;
+    int WorldY; 
+    vector<int> grid; 
+    vector<org> plants; 
 
 	WeedWorld(shared_ptr<ParametersTable> _PT = nullptr);
 	virtual ~WeedWorld() = default;
@@ -62,16 +73,9 @@ public:
     void kill(); // kill the plants
     void spawn(); //spawn the plants if they're ready
 
-    //should have a way to figure out how to set this in the cfg file so that we can change this as needed.
-    int WorldX;
-    int WorldY; 
-
-    vector<int> grid; 
 
     //hack hack hack (sorry) 
     bool init; //init in the eval fn only once
-
-    // map<int, org>
 
     //ripped out of weed world.
     // convert x,y into a grid index
@@ -109,6 +113,20 @@ public:
 		setGridValue(grid, getGridIndexFromXY(loc), value);
 	}
    
+
+	vector<org> makePlants(int x, int y) {
+		vector<org> grid;
+		grid.resize(x * y);
+        for (int i = 0; i<x*y; i++){
+            org tempOrg;
+            tempOrg.orgID=-1; 
+            tempOrg.numFood=0; 
+            tempOrg.loc=i;
+            grid[i]=tempOrg; 
+        }
+
+		return grid;
+	}
 
 	// return a vector of size x*y
 	vector<int> makeGrid(int x, int y) {
