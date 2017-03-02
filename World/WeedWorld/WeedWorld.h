@@ -40,9 +40,7 @@ public:
     //we want to map the ID of the plant to our org object
     //we can access them bc the ID's are stored in our grid.
     //ID, organism
-    //map<int, org> plantz;
-//    map<string,map<string,string>> plantz;
-    //map<int, int> plantz;
+    map<int, org> plants;
 
 	static shared_ptr<ParameterLink<int>> modePL;
 	static shared_ptr<ParameterLink<int>> numberOfOutputsPL;
@@ -55,8 +53,9 @@ public:
     //should have a way to figure out how to set this in the cfg file so that we can change this as needed.
     int WorldX;
     int WorldY; 
-    vector<int> grid; 
-    vector<org> plants; 
+    vector<int> grid;
+    
+    bool init; //init in the eval fn only once
 
 	WeedWorld(shared_ptr<ParametersTable> _PT = nullptr);
 	virtual ~WeedWorld() = default;
@@ -73,10 +72,6 @@ public:
     void kill(); // kill the plants
     void spawn(); //spawn the plants if they're ready
 
-
-    //hack hack hack (sorry) 
-    bool init; //init in the eval fn only once
-
     //ripped out of weed world.
     // convert x,y into a grid index
 	int getGridIndexFromXY(pair<int, int> loc) {
@@ -92,15 +87,6 @@ public:
 	int getGridValue(const vector<int> &grid, pair<int, int> loc) {
 		return getGridValue(grid, getGridIndexFromXY(loc));
 	}
-
-
-    /*
-	// takes x,y and updates them by moving one step in facing
-	pair<int, int> moveOnGrid(pair<int, int> loc, int facing) {
-		return {loopMod((loc.first + xm[facing]), WorldX), loopMod((loc.second + ym[facing]), WorldY)};
-	}
-
-   */
 
 	// update value at index in grid
 	void setGridValue(vector<int> &grid, int index, int value) {

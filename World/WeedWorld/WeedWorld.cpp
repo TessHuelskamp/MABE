@@ -32,7 +32,7 @@ WeedWorld::WeedWorld(shared_ptr<ParametersTable> _PT) :
 
     cerr <<"in init";
     grid = makeGrid(WorldX, WorldY); 
-    plants = makePlants(WorldX, WorldY); 
+    //plants = makePlants(WorldX, WorldY); 
 
     //test = {1, 2, 3}; //init for now bc something is broken
 
@@ -43,14 +43,13 @@ WeedWorld::WeedWorld(shared_ptr<ParametersTable> _PT) :
 }
 
 
-int WeedWorld::numNeighbors(size_t vecLoc){
-    //only getting things from radius 1 for now. 
+//only getting things from radius 1 for now. 
     //need to expand this later.
     //copied from Emperical. Ty CAO
-    
+int WeedWorld::numNeighbors(size_t vecLoc){
+        
     int numNeighbors = 0; 
 
-    //WorldX and WorldUY
     for (int i = 0; i < 9; i++)
     {
 
@@ -90,20 +89,19 @@ void WeedWorld::evaluate(map<string, shared_ptr<Group>>& groups, int analyse = 0
             setGridValue(grid, loc, orgPtr->ID); 
             
             //construct plant to put in the map
-            //org plant;
-            //plant.orgID=orgPtr->ID; 
-            //plant.numFood = 10; 
-            //plant.loc=loc;
-            //plants[orgPtr->ID]=plant;
+            org plant;
+            plant.orgID=orgPtr->ID; 
+            plant.numFood = 10; 
+            plant.loc=loc;
+            plants[orgPtr->ID]=plant;
             
         }
 
 
         init = true; 
 
-        printGrid(grid,cout); 
+        //printGrid(grid,cout); 
    }
-    std::cout<<"HERE"<<std::endl;
 
 
     for (int i=0; i<1; i++){
@@ -122,15 +120,15 @@ void WeedWorld::evaluate(map<string, shared_ptr<Group>>& groups, int analyse = 0
 
     //check the number of neighbors something random has 
 
-    size_t orgLoc = 35; 
-    int neighbors = numNeighbors(orgLoc); 
-    int orgID = grid[orgLoc];
+    //size_t orgLoc = 35; 
+    //int neighbors = numNeighbors(orgLoc); 
+    //int orgID = grid[orgLoc];
 
-    cout<< orgLoc << " " << orgID <<" " << neighbors << endl;
+    //cout<< orgLoc << " " << orgID <<" " << neighbors << endl;
 
 
 
-    cout<<groups["default"]->population.size()<< endl; 
+    //cout<<groups["default"]->population.size()<< endl; 
 
 
     //get all of the orgs and put them at a spot in our grid. 
@@ -149,7 +147,17 @@ void WeedWorld::spawn(){
 }
 
 void WeedWorld::feed(){
-    //TODO
+    for (auto org : grid)
+    {
+        if (org == -1) continue;
+
+        int neighbors = numNeighbors(grid.size());
+
+        int food = 9 - neighbors;
+
+        plants[org].numFood += food;
+
+    }
 }
 
 int WeedWorld::requiredInputs() {
