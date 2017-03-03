@@ -143,7 +143,20 @@ void WeedWorld::kill(){
 }
 
 void WeedWorld::spawn(){
-    //TODO
+
+    int foodNeeded = 10; // Food required to reproduce
+
+    for (auto org: grid)
+    {
+        if (org == -1) continue;
+
+        if (plants[org].numFood > foodNeeded)
+            {
+                // Get a random neighbor
+                // place organism there
+            }
+
+    }
 }
 
 void WeedWorld::feed(){
